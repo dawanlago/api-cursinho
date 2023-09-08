@@ -1,0 +1,11 @@
+{
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "semi": true,
+  "endOfLine": "lf",
+  "jsxBracketSameLine": false,
+  "jsxSingleQuote": true,
+  "ignored": false,
+  "inferredParser": "babel",
+  "printWidth": 140
+}
