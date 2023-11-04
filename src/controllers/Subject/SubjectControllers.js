@@ -3,9 +3,19 @@ import Subject from '../../models/Subject';
 class SubjectController {
   async index(req, res) {
     const { company } = req.params;
+    const { discipline } = req.query;
+    if (!discipline) return res.json(null);
 
     const subjects = await Subject.find({ company }).sort('description').populate('disciplines').populate('company');
-    return res.json(subjects);
+    let subjectsFiltered = [];
+    subjects.forEach((subject) => {
+      subject.disciplines.forEach((item) => {
+        if (String(item._id) === discipline) {
+          subjectsFiltered.push(subject);
+        }
+      });
+    });
+    return res.json(subjectsFiltered);
   }
 
   async store(req, res) {
@@ -15,10 +25,6 @@ class SubjectController {
     if (!description || description === '') {
       return res.json({ success: false, errors: 'A descrição do assunto é obrigatório' });
     }
-
-    /*     if (!discipline || discipline === '') {
-                                          return res.json({ success: false, errors: 'A disciplina é obrigatória' });
-                                        } */
 
     if (!!descriptionExist) {
       return res.json({ success: false, errors: 'Já existe um assunto com essa descrição.' });
@@ -45,10 +51,6 @@ class SubjectController {
     if (!description || description === '') {
       return res.json({ success: false, errors: 'A descrição do assunto é obrigatório' });
     }
-
-    /* if (!discipline || discipline === '') {
-                              return res.json({ success: false, errors: 'A disciplina é obrigatória' });
-                            } */
 
     if (!!descriptionExist && descriptionExist._id != subject_id && descriptionExist.company == company) {
       return res.json({ success: false, errors: 'Já existe um assunto com essa descrição.' });

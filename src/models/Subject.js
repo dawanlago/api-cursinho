@@ -1,20 +1,15 @@
 import { Schema, model } from 'mongoose';
 
-const SubjectSchema = new Schema(
-  {
+const SubjectSchema = new Schema({
     description: String,
-    disciplines: [
-      {
+    disciplines: [{
         type: Schema.Types.ObjectId,
         ref: 'Discipline',
-      },
-    ],
+    }, ],
     company: {
-      type: Schema.Types.ObjectId,
-      ref: 'Company',
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
     },
-  },
-  { timestamps: true }
-);
+}, { timestamps: true });
 
 export default model('Subject', SubjectSchema);
