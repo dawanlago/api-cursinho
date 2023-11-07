@@ -1,7 +1,5 @@
 import Class from '../../models/Class';
 import Material from '../../models/Material';
-let multer = require('multer');
-let upload = multer({ dest: './uploads/' });
 
 class MaterialController {
   giveCurrentDateTime = () => {
