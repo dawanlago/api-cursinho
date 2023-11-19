@@ -105,12 +105,11 @@ class UserController {
         return res.json({ sucess: false, erros: 'Credenciais inválidas' });
       }
 
-      const isPasswordValid = bcrypt.compare(password, user.password);
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
         return res.json({ sucess: false, erros: 'Credenciais inválidas' });
       }
-
       const token = jwt.sign({ userId: user._id, email: user.email }, 'secretpassword', { expiresIn: '48h' });
 
       return res.json(token);
