@@ -14,6 +14,8 @@ import { getStorage, ref, getDownloadURL, uploadBytesResumable, deleteObject } f
 import config from './config/firebaseConfig';
 import QuestionControllers from './controllers/Question/QuestionControllers';
 import SimulatorController from './controllers/Simulator/SimulatorController';
+import UserControllers from './controllers/User/UserControllers';
+import { authenticateToken } from './middlewares/authenticateToken';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -75,6 +77,12 @@ routes.delete('/questions/:question_id', companyExist, QuestionControllers.destr
 routes.get('/simulators/:company/', companyExist, SimulatorController.index);
 routes.post('/simulators', companyExist, SimulatorController.store);
 
+// Users
+routes.post('/users', companyExist, authenticateToken, UserControllers.store);
+routes.post('/login', companyExist, UserControllers.login);
+routes.get('/users/:company', companyExist, authenticateToken, UserControllers.index);
+routes.put('/users/:user_id/', companyExist, authenticateToken, UserControllers.update);
+routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControllers.destroy);
 // PDF
 routes.post('/upload-pdf', async (req, res) => {
   try {
