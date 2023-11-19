@@ -26,52 +26,52 @@ routes.post('/', (req, res) => {
 });
 
 // Classes
-routes.post('/classes/', companyExist, ClassController.store);
-routes.get('/classes/:company', companyExist, ClassController.index);
-routes.put('/classes/:class_id', companyExist, ClassController.update);
-routes.delete('/classes/:class_id', companyExist, ClassController.destroy);
-routes.get('/classes/:company/:class_id', companyExist, ClassController.read);
+routes.post('/classes/', companyExist, authenticateToken, ClassController.store);
+routes.get('/classes/:company', companyExist, authenticateToken, ClassController.index);
+routes.put('/classes/:class_id', companyExist, authenticateToken, ClassController.update);
+routes.delete('/classes/:class_id', companyExist, authenticateToken, ClassController.destroy);
+routes.get('/classes/:company/:class_id', companyExist, authenticateToken, ClassController.read);
 
 // Topics
-routes.post('/topics/', companyExist, TopicControllers.store);
-routes.get('/topics/:company', companyExist, TopicControllers.index);
-routes.put('/topics/:topic_id', companyExist, TopicControllers.update);
-routes.delete('/topics/:topic_id', companyExist, TopicControllers.destroy);
-routes.get('/topics/:company/:topic_id', companyExist, TopicControllers.read);
+routes.post('/topics/', companyExist, authenticateToken, TopicControllers.store);
+routes.get('/topics/:company', companyExist, authenticateToken, TopicControllers.index);
+routes.put('/topics/:topic_id', companyExist, authenticateToken, TopicControllers.update);
+routes.delete('/topics/:topic_id', companyExist, authenticateToken, TopicControllers.destroy);
+routes.get('/topics/:company/:topic_id', companyExist, authenticateToken, TopicControllers.read);
 
 // Juries
-routes.post('/juries/', companyExist, JuryControllers.store);
-routes.get('/juries/:company', companyExist, JuryControllers.index);
-routes.put('/juries/:jury_id', companyExist, JuryControllers.update);
-routes.delete('/juries/:jury_id', companyExist, JuryControllers.destroy);
-routes.get('/juries/:company/:jury_id', companyExist, JuryControllers.read);
+routes.post('/juries/', companyExist, authenticateToken, JuryControllers.store);
+routes.get('/juries/:company', companyExist, authenticateToken, JuryControllers.index);
+routes.put('/juries/:jury_id', companyExist, authenticateToken, JuryControllers.update);
+routes.delete('/juries/:jury_id', companyExist, authenticateToken, JuryControllers.destroy);
+routes.get('/juries/:company/:jury_id', companyExist, authenticateToken, JuryControllers.read);
 
 // Disciplines
-routes.post('/disciplines/', companyExist, DisciplineControllers.store);
-routes.get('/disciplines/:company', companyExist, DisciplineControllers.index);
-routes.put('/disciplines/:discipline_id', companyExist, DisciplineControllers.update);
-routes.delete('/disciplines/:discipline_id', companyExist, DisciplineControllers.destroy);
-routes.get('/disciplines/:company/:discipline_id', companyExist, DisciplineControllers.read);
+routes.post('/disciplines/', companyExist, authenticateToken, DisciplineControllers.store);
+routes.get('/disciplines/:company', companyExist, authenticateToken, DisciplineControllers.index);
+routes.put('/disciplines/:discipline_id', companyExist, authenticateToken, DisciplineControllers.update);
+routes.delete('/disciplines/:discipline_id', companyExist, authenticateToken, DisciplineControllers.destroy);
+routes.get('/disciplines/:company/:discipline_id', companyExist, authenticateToken, DisciplineControllers.read);
 
 // Subjects
-routes.post('/subjects/', companyExist, SubjectControllers.store);
-routes.get('/subjects/:company', companyExist, SubjectControllers.index);
-routes.put('/subjects/:subject_id', companyExist, SubjectControllers.update);
-routes.delete('/subjects/:subject_id', companyExist, SubjectControllers.destroy);
-routes.get('/subjects/:company/:subject_id', companyExist, SubjectControllers.read);
+routes.post('/subjects/', companyExist, authenticateToken, SubjectControllers.store);
+routes.get('/subjects/:company', companyExist, authenticateToken, SubjectControllers.index);
+routes.put('/subjects/:subject_id', companyExist, authenticateToken, SubjectControllers.update);
+routes.delete('/subjects/:subject_id', companyExist, authenticateToken, SubjectControllers.destroy);
+routes.get('/subjects/:company/:subject_id', companyExist, authenticateToken, SubjectControllers.read);
 
 // Materials
-routes.post('/materials/', companyExist, MaterialControllers.store);
-routes.get('/materials/:company/:course/:week/:day', companyExist, MaterialControllers.index);
-routes.put('/materials/:material_id', companyExist, MaterialControllers.update);
-routes.delete('/materials/:material_id', companyExist, MaterialControllers.destroy);
+routes.post('/materials/', companyExist, authenticateToken, MaterialControllers.store);
+routes.get('/materials/:company/:course/:week/:day', authenticateToken, companyExist, MaterialControllers.index);
+routes.put('/materials/:material_id', companyExist, authenticateToken, MaterialControllers.update);
+routes.delete('/materials/:material_id', companyExist, authenticateToken, MaterialControllers.destroy);
 
 // Questions
-routes.post('/questions', companyExist, QuestionControllers.store);
-routes.get('/questions/:company/', companyExist, QuestionControllers.index);
-routes.post('/questions/addAnswer/:question_id', companyExist, QuestionControllers.addAnswer);
-routes.put('/questions/:question_id/', companyExist, QuestionControllers.update);
-routes.delete('/questions/:question_id', companyExist, QuestionControllers.destroy);
+routes.post('/questions', companyExist, authenticateToken, QuestionControllers.store);
+routes.get('/questions/:company/', companyExist, authenticateToken, QuestionControllers.index);
+routes.post('/questions/addAnswer/:question_id', companyExist, authenticateToken, QuestionControllers.addAnswer);
+routes.put('/questions/:question_id/', companyExist, authenticateToken, QuestionControllers.update);
+routes.delete('/questions/:question_id', companyExist, authenticateToken, QuestionControllers.destroy);
 
 // Simulators
 routes.get('/simulators/:company/', companyExist, SimulatorController.index);

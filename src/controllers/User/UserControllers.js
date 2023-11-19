@@ -102,17 +102,17 @@ class UserController {
       const user = await User.findOne({ email: email, company });
 
       if (!user) {
-        return res.json({ sucess: false, erros: 'Credenciais inválidas' });
+        return res.json({ success: false, erros: 'Credenciais inválidas' });
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        return res.json({ sucess: false, erros: 'Credenciais inválidas' });
+        return res.status(401).json({ success: false, erros: 'Credenciais inválidas' });
       }
       const token = jwt.sign({ userId: user._id, email: user.email }, 'secretpassword', { expiresIn: '48h' });
 
-      return res.json(token);
+      return res.json({ token: token, name: user.name, email: user.email });
     } catch {
       res.status(500).json({ message: 'Erro no servidor' });
     }
