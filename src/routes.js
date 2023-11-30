@@ -78,8 +78,9 @@ routes.get('/simulators/:company/', companyExist, SimulatorController.index);
 routes.post('/simulators', companyExist, SimulatorController.store);
 
 // Users
-routes.post('/users', companyExist, authenticateToken, UserControllers.store);
+routes.post('/users', companyExist, UserControllers.store);
 routes.post('/login', companyExist, UserControllers.login);
+routes.get('/verify/:verifyToken', UserControllers.verify);
 routes.get('/users/:company', companyExist, authenticateToken, UserControllers.index);
 routes.put('/users/:user_id/', companyExist, authenticateToken, UserControllers.update);
 routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControllers.destroy);

@@ -5,7 +5,11 @@ const UserSchema = new Schema(
     email: String,
     password: String,
     name: String,
+    phone: String,
+    cpf: String,
     admin: Boolean,
+    verificationToken: String,
+    active: Boolean,
     courses: [
       {
         type: Schema.Types.ObjectId,
