@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import Class from '../../models/Class';
+import User from '../../models/User';
 
 class ClassController {
   async index(req, res) {
@@ -89,6 +91,25 @@ class ClassController {
 
     const classReq = await Class.find({ _id: class_id, company });
     return res.json(classReq);
+  }
+
+  async addStudent(req, res) {
+    const { student } = req.body;
+    const { class_id } = req.params;
+    const user = await User.findOne({ _id: student });
+    const newUser = { user, registered: false };
+    const studentEnrolled = await Class.updateOne({ _id: class_id }, { $push: { students: newUser } });
+    return res.json(studentEnrolled);
+  }
+
+  async coursesEnrolled(req, res) {
+    const { student } = req.params;
+
+    const courses = await Class.find({
+      'students.user': student,
+    });
+
+    return res.json(courses);
   }
 }
 

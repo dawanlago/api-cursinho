@@ -10,6 +10,17 @@ const ClassSchema = new Schema(
       required: false,
       set: (v) => (v === '' ? null : v),
     },
+    students: [
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+          required: false,
+          set: (v) => (v === '' ? null : v),
+        },
+        registered: { type: Boolean, default: false },
+      },
+    ],
     numberOfWeeks: Number,
     image: String,
     company: {

@@ -16,13 +16,13 @@ class UserController {
   async index(req, res) {
     const { company } = req.params;
 
-    const users = await User.find({ company }, { password: 0 }).sort('name').populate('courses').populate('company');
+    const users = await User.find({ company }, { password: 0 }).sort('name').populate('company');
 
     return res.json(users);
   }
 
   async store(req, res) {
-    const { email, password, name, phone, cpf, admin, courses, company } = req.body;
+    const { email, password, name, phone, cpf, admin, company } = req.body;
     const emailExist = await User.findOne({ email, company });
 
     if (!email || email === '') {
@@ -46,7 +46,6 @@ class UserController {
       phone,
       cpf,
       admin,
-      courses,
       verificationToken,
       active: false,
       company,
@@ -117,7 +116,7 @@ class UserController {
   }
 
   async update(req, res) {
-    const { email, password, name, phone, cpf, admin, courses, company } = req.body;
+    const { email, password, name, phone, cpf, admin, company } = req.body;
     const { user_id } = req.params;
 
     const emailExist = await User.findOne({ email, company });
@@ -149,7 +148,6 @@ class UserController {
         phone,
         cpf,
         admin,
-        courses,
         company,
       }
     );
@@ -262,7 +260,7 @@ class UserController {
 
       const token = jwt.sign({ userId: user._id, email: user.email }, 'secretpassword', { expiresIn: '48h' });
 
-      return res.json({ token: token, name: user.name, email: user.email });
+      return res.json({ token: token, name: user.name, email: user.email, _id: user._id });
     } catch {
       res.status(500).json({ message: 'Erro no servidor' });
     }

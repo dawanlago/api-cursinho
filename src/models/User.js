@@ -10,12 +10,6 @@ const UserSchema = new Schema(
     admin: Boolean,
     verificationToken: String,
     active: Boolean,
-    courses: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Class',
-      },
-    ],
     company: {
       type: Schema.Types.ObjectId,
       ref: 'Company',
