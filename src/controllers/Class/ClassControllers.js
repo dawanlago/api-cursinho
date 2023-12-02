@@ -6,7 +6,12 @@ class ClassController {
   async index(req, res) {
     const { company } = req.params;
 
-    const classes = await Class.find({ company }).sort('description').populate('topic').populate('company');
+    const classes = await Class.find({ company })
+      .sort('description')
+      .populate('topic')
+      .populate('preEnrolledStudents')
+      .populate('enrolledStudents')
+      .populate('company');
     return res.json(classes);
   }
 
@@ -97,19 +102,41 @@ class ClassController {
     const { student } = req.body;
     const { class_id } = req.params;
     const user = await User.findOne({ _id: student });
-    const newUser = { user, registered: false };
-    const studentEnrolled = await Class.updateOne({ _id: class_id }, { $push: { students: newUser } });
-    return res.json(studentEnrolled);
+    const preEnrolledStudents = await Class.updateOne({ _id: class_id }, { $push: { preEnrolledStudents: user } });
+    return res.json(preEnrolledStudents);
   }
 
-  async coursesEnrolled(req, res) {
+  async enrolledCourses(req, res) {
     const { student } = req.params;
-
     const courses = await Class.find({
-      'students.user': student,
+      enrolledStudents: student,
     });
 
     return res.json(courses);
+  }
+
+  async preEnrolledCourses(req, res) {
+    const { student } = req.params;
+    const courses = await Class.find({
+      preEnrolledStudents: student,
+    });
+
+    return res.json(courses);
+  }
+
+  async acceptStudentInCourse(req, res) {
+    const { student } = req.body;
+    const { class_id } = req.params;
+    const user = await User.findOne({ _id: student });
+    await Class.updateOne(
+      { _id: class_id },
+      {
+        $pull: { preEnrolledStudents: user._id },
+      }
+    );
+    await Class.updateOne({ _id: class_id }, { $push: { enrolledStudents: user } });
+    const classRes = await Class.find({ _id: class_id });
+    return res.json(classRes);
   }
 }
 

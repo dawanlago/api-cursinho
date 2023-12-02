@@ -32,7 +32,9 @@ routes.put('/classes/:class_id', companyExist, authenticateToken, ClassControlle
 routes.delete('/classes/:class_id', companyExist, authenticateToken, ClassController.destroy);
 routes.get('/classes/:company/:class_id', companyExist, authenticateToken, ClassController.read);
 routes.post('/enrollStudent/:class_id', companyExist, authenticateToken, ClassController.addStudent);
-routes.get('/coursesEnrolled/:company/:student', companyExist, authenticateToken, ClassController.coursesEnrolled);
+routes.post('/acceptStudent/:class_id', companyExist, authenticateToken, ClassController.acceptStudentInCourse);
+routes.get('/enrolledCourses/:company/:student', companyExist, authenticateToken, ClassController.enrolledCourses);
+routes.get('/preEnrolledCourses/:company/:student', companyExist, authenticateToken, ClassController.preEnrolledCourses);
 // Topics
 routes.post('/topics/', companyExist, authenticateToken, TopicControllers.store);
 routes.get('/topics/:company', companyExist, authenticateToken, TopicControllers.index);

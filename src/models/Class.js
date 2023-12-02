@@ -10,15 +10,20 @@ const ClassSchema = new Schema(
       required: false,
       set: (v) => (v === '' ? null : v),
     },
-    students: [
+    preEnrolledStudents: [
       {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: 'User',
-          required: false,
-          set: (v) => (v === '' ? null : v),
-        },
-        registered: { type: Boolean, default: false },
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+        set: (v) => (v === '' ? null : v),
+      },
+    ],
+    enrolledStudents: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+        set: (v) => (v === '' ? null : v),
       },
     ],
     numberOfWeeks: Number,
