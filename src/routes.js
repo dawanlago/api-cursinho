@@ -11,7 +11,9 @@ import MaterialControllers from './controllers/Material/MaterialControllers';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, getDownloadURL, uploadBytesResumable, deleteObject } from 'firebase/storage';
 
+import multer from 'multer';
 import config from './config/firebaseConfig';
+
 import QuestionControllers from './controllers/Question/QuestionControllers';
 import SimulatorController from './controllers/Simulator/SimulatorController';
 import UserControllers from './controllers/User/UserControllers';
@@ -19,6 +21,7 @@ import { authenticateToken } from './middlewares/authenticateToken';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
+const upload = multer({ storage: multer.memoryStorage() });
 
 const routes = new Router();
 routes.post('/', (req, res) => {
@@ -88,7 +91,7 @@ routes.get('/users/:company', companyExist, authenticateToken, UserControllers.i
 routes.put('/users/:user_id/', companyExist, authenticateToken, UserControllers.update);
 routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControllers.destroy);
 // PDF
-routes.post('/upload-pdf', async (req, res) => {
+routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
   try {
     const dateTime = giveCurrentDateTime();
     const storageRef = ref(storage, `files/${req.file.originalname + '       ' + dateTime}`);
