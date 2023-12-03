@@ -57,14 +57,24 @@ class SimulatorController {
   }
 
   async store(req, res) {
-    const { questions, time, company } = req.body;
+    const { questions, time, questionsQuantity, answersCorrect, answersIncorrect, company, user } = req.body;
 
     const simulator = await SimulatorAnswered.create({
       questions,
       time,
+      questionsQuantity,
+      answersCorrect,
+      answersIncorrect,
+      user,
       company,
     });
     return res.json(simulator);
+  }
+
+  async listSimulators(req, res) {
+    const { company, user } = req.params;
+    const simulators = await SimulatorAnswered.find({ company, user }).sort({ createdAt: -1 }).populate('company');
+    return res.json(simulators);
   }
 }
 

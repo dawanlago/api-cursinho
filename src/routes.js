@@ -80,8 +80,9 @@ routes.put('/questions/:question_id/', companyExist, authenticateToken, Question
 routes.delete('/questions/:question_id', companyExist, authenticateToken, QuestionControllers.destroy);
 
 // Simulators
-routes.get('/simulators/:company/', companyExist, SimulatorController.index);
-routes.post('/simulators', companyExist, SimulatorController.store);
+routes.get('/simulators/:company/', companyExist, authenticateToken, SimulatorController.index);
+routes.get('/listSimulators/:company/:user', companyExist, authenticateToken, SimulatorController.listSimulators);
+routes.post('/simulators', companyExist, authenticateToken, SimulatorController.store);
 
 // Users
 routes.post('/users', companyExist, UserControllers.store);
