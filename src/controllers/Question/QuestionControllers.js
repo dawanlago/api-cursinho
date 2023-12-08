@@ -3,10 +3,16 @@ import Question from '../../models/Question';
 class QuestionController {
   async index(req, res) {
     const { company } = req.params;
-    const { year, discipline, subject, jury, level, difficulty, modality } = req.query;
+    const { description, year, discipline, subject, jury, level, difficulty, modality } = req.query;
     const data = {
       company: company,
     };
+
+    let searchDescription = undefined;
+
+    if (!!description) {
+      searchDescription = description;
+    }
 
     if (!!year) {
       data.year = year;
@@ -35,13 +41,26 @@ class QuestionController {
     if (!!modality) {
       data.modality = modality;
     }
-    const questions = await Question.find(data)
+
+    if (description) {
+      const questions = await Question.find({
+        ...data,
+        description: { $regex: searchDescription, $options: 'i' },
+      })
+        .sort('description')
+        .populate('discipline')
+        .populate('subject')
+        .populate('jury')
+        .populate('company');
+
+      return res.json(questions);
+    }
+    const questions = await Question.find({ ...data })
       .sort('description')
       .populate('discipline')
       .populate('subject')
       .populate('jury')
       .populate('company');
-
     return res.json(questions);
   }
 

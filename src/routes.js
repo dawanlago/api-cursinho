@@ -18,6 +18,7 @@ import QuestionControllers from './controllers/Question/QuestionControllers';
 import SimulatorController from './controllers/Simulator/SimulatorController';
 import UserControllers from './controllers/User/UserControllers';
 import { authenticateToken } from './middlewares/authenticateToken';
+import SimulatorAdmController from './controllers/Simulator/SimulatorAdmController';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -83,6 +84,12 @@ routes.delete('/questions/:question_id', companyExist, authenticateToken, Questi
 routes.get('/simulators/:company/', companyExist, authenticateToken, SimulatorController.index);
 routes.get('/listSimulators/:company/:user', companyExist, authenticateToken, SimulatorController.listSimulators);
 routes.post('/simulators', companyExist, authenticateToken, SimulatorController.store);
+
+// Simulators ADM
+routes.post('/simulators-adm', companyExist, authenticateToken, SimulatorAdmController.store);
+routes.get('/list-simulators-adm/:company/:course', companyExist, authenticateToken, SimulatorAdmController.listSimulators);
+routes.put('/simulators-adm/:simulator_id', companyExist, authenticateToken, SimulatorAdmController.update);
+routes.delete('/simulators-adm/:simulator_id', companyExist, authenticateToken, SimulatorAdmController.destroy);
 
 // Users
 routes.post('/users', companyExist, UserControllers.store);
