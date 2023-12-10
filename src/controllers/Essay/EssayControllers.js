@@ -13,7 +13,7 @@ class EssayControllers {
   async store(req, res) {
     const { title, endDate, text, course, company } = req.body;
 
-    if (!description || description === '') {
+    if (!title || title === '') {
       return res.json({ success: false, errors: 'O titulo da redação é obrigatório' });
     }
 
