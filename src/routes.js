@@ -19,7 +19,6 @@ import SimulatorController from './controllers/Simulator/SimulatorController';
 import UserControllers from './controllers/User/UserControllers';
 import { authenticateToken } from './middlewares/authenticateToken';
 import SimulatorAdmController from './controllers/Simulator/SimulatorAdmController';
-import EssayControllers from './controllers/Essay/EssayControllers';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -100,10 +99,6 @@ routes.get('/verify/:verifyToken', UserControllers.verify);
 routes.get('/users/:company', companyExist, authenticateToken, UserControllers.index);
 routes.put('/users/:user_id/', companyExist, authenticateToken, UserControllers.update);
 routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControllers.destroy);
-
-// Essays
-routes.post('/essays', companyExist, authenticateToken, EssayControllers.store);
-
 // PDF
 routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
   try {
