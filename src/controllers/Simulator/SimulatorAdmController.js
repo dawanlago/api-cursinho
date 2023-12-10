@@ -102,6 +102,13 @@ class SimulatorAdmController {
     return res.json(simulators);
   }
 
+  async listSimulatorsForStudent(req, res) {
+    const { company } = req.params;
+    const { course } = req.query;
+    const simulators = await Simulator.find({ company, course }).sort({ createdAt: -1 }).populate('company');
+    return res.json(simulators);
+  }
+
   async destroy(req, res) {
     const { simulator_id } = req.params;
 

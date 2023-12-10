@@ -17,6 +17,12 @@ const SimulatorAnseredSchema = new Schema(
       required: false,
       set: (v) => (v === '' ? null : v),
     },
+    simulatorAdm: {
+      type: Schema.Types.ObjectId,
+      ref: 'Simulator',
+      required: false,
+      set: (v) => (v === '' ? null : v),
+    },
   },
   { timestamps: true }
 );

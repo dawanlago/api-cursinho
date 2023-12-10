@@ -90,6 +90,7 @@ routes.post('/simulators-adm', companyExist, authenticateToken, SimulatorAdmCont
 routes.get('/list-simulators-adm/:company/:course', companyExist, authenticateToken, SimulatorAdmController.listSimulators);
 routes.put('/simulators-adm/:simulator_id', companyExist, authenticateToken, SimulatorAdmController.update);
 routes.delete('/simulators-adm/:simulator_id', companyExist, authenticateToken, SimulatorAdmController.destroy);
+routes.get('/list-simulators-student/:company', companyExist, authenticateToken, SimulatorAdmController.listSimulatorsForStudent);
 
 // Users
 routes.post('/users', companyExist, UserControllers.store);

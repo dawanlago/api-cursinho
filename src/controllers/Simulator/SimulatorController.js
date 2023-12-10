@@ -57,7 +57,7 @@ class SimulatorController {
   }
 
   async store(req, res) {
-    const { questions, time, questionsQuantity, answersCorrect, answersIncorrect, company, user } = req.body;
+    const { questions, time, simulatorAdm, questionsQuantity, answersCorrect, answersIncorrect, company, user } = req.body;
 
     const simulator = await SimulatorAnswered.create({
       questions,
@@ -66,6 +66,7 @@ class SimulatorController {
       answersCorrect,
       answersIncorrect,
       user,
+      simulatorAdm,
       company,
     });
     return res.json(simulator);
