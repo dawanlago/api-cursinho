@@ -4,10 +4,11 @@ import Essay from '../../models/Essay';
 class EssayControllers {
   async index(req, res) {
     const { company } = req.params;
+    const { course } = req.query;
 
-    const topics = await Topic.find({ company }).sort('description').populate('company');
+    const essays = await Essay.find({ company, course }).sort({ endDate: -1 }).populate('company');
 
-    return res.json(topics);
+    return res.json(essays);
   }
 
   async store(req, res) {

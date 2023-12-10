@@ -101,7 +101,9 @@ routes.get('/users/:company', companyExist, authenticateToken, UserControllers.i
 routes.put('/users/:user_id/', companyExist, authenticateToken, UserControllers.update);
 routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControllers.destroy);
 
+// Essay
 routes.post('/essay', companyExist, authenticateToken, EssayControllers.store);
+routes.get('/essay/:company', companyExist, authenticateToken, EssayControllers.index);
 // PDF
 routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
   try {
