@@ -1,5 +1,6 @@
 import Topic from '../../models/Topic';
 import Essay from '../../models/Essay';
+import EssayStudent from '../../models/EssayStudent';
 
 class EssayControllers {
   async index(req, res) {
@@ -30,6 +31,19 @@ class EssayControllers {
       company,
     });
     return res.json(essay);
+  }
+
+  async storeStudent(req, res) {
+    const { image, student, essayAdm, company } = req.body;
+
+    const essayStudent = await EssayStudent.create({
+      image,
+      student,
+      essayAdm,
+      company,
+    });
+
+    return res.json(essayStudent);
   }
 
   async update(req, res) {
@@ -81,6 +95,13 @@ class EssayControllers {
 
     const topic = await Topic.findById({ _id: topic_id, company });
     return res.json(topic);
+  }
+
+  async listEssayForStudent(req, res) {
+    const { company } = req.params;
+    const { course } = req.query;
+    const essays = await Essay.find({ company, course }).sort({ createdAt: -1 }).populate('company');
+    return res.json(essays);
   }
 }
 

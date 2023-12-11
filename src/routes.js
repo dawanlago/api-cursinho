@@ -104,6 +104,31 @@ routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControlle
 // Essay
 routes.post('/essay', companyExist, authenticateToken, EssayControllers.store);
 routes.get('/essay/:company', companyExist, authenticateToken, EssayControllers.index);
+routes.get('/list-essay-student/:company', companyExist, authenticateToken, EssayControllers.listEssayForStudent);
+routes.post('/essay-student', companyExist, authenticateToken, EssayControllers.storeStudent);
+
+routes.post('/send-essay', upload.single('image'), async (req, res) => {
+  try {
+    const dateTime = giveCurrentDateTime();
+    const storageRef = ref(storage, `files/${req.file.originalname + '       ' + dateTime}`);
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    return res.send({
+      message: 'file uploaded to firebase storage',
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      downloadURL: downloadURL,
+    });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+});
+
 // PDF
 routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
   try {
