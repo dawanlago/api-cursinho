@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 const EssayStudentSchema = new Schema(
   {
-    file: String,
+    image: String,
     student: {
       type: Schema.Types.ObjectId,
       ref: 'User',

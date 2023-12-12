@@ -20,6 +20,7 @@ import UserControllers from './controllers/User/UserControllers';
 import { authenticateToken } from './middlewares/authenticateToken';
 import SimulatorAdmController from './controllers/Simulator/SimulatorAdmController';
 import EssayControllers from './controllers/Essay/EssayControllers';
+import EssayStudentControllers from './controllers/Essay/EssayStudentControllers';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -105,7 +106,8 @@ routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControlle
 routes.post('/essay', companyExist, authenticateToken, EssayControllers.store);
 routes.get('/essay/:company', companyExist, authenticateToken, EssayControllers.index);
 routes.get('/list-essay-student/:company', companyExist, authenticateToken, EssayControllers.listEssayForStudent);
-routes.post('/essay-student', companyExist, authenticateToken, EssayControllers.storeStudent);
+routes.post('/essay-student', companyExist, authenticateToken, EssayStudentControllers.store);
+routes.get('/essay-student/:company', companyExist, authenticateToken, EssayStudentControllers.index);
 
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {
