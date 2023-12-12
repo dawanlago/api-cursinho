@@ -11,6 +11,7 @@ const EssayStudentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Essay',
     },
+    corrected: Boolean,
     company: {
       type: Schema.Types.ObjectId,
       ref: 'Company',

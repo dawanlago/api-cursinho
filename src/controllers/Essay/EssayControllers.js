@@ -34,12 +34,13 @@ class EssayControllers {
   }
 
   async storeStudent(req, res) {
-    const { image, student, essayAdm, company } = req.body;
+    const { image, student, essayAdm, corrected, company } = req.body;
 
     const essayStudent = await EssayStudent.create({
       image,
       student,
       essayAdm,
+      corrected,
       company,
     });
 
