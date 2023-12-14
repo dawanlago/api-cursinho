@@ -7,7 +7,7 @@ const EssaySchema = new Schema(
     text: String,
     course: {
       type: Schema.Types.ObjectId,
-      ref: 'Course',
+      ref: 'Class',
       required: false,
       set: (v) => (v === '' ? null : v),
     },

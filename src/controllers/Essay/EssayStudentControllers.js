@@ -8,7 +8,12 @@ class EssayControllers {
       .sort({ endDate: -1 })
       .populate('company')
       .populate('student')
-      .populate('essayAdm');
+      .populate({
+        path: 'essayAdm',
+        populate: {
+          path: 'course',
+        },
+      });
 
     return res.json(essays);
   }
