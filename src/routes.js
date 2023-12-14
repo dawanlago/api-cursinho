@@ -111,27 +111,23 @@ routes.get('/essay-student/:company', companyExist, authenticateToken, EssayStud
 
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {
-    const file = bucket.file(req.file.originalname);
+    const dateTime = giveCurrentDateTime();
+    const storageRef = ref(storage, `images/${req.file.originalname + '       ' + dateTime}`);
+    const metadata = {
+      contentType: req.image.mimetype,
+    };
 
-    const stream = file.createWriteStream({
-      metadata: {
-        contentType: req.file.mimetype,
-      },
-    });
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+    const downloadURL = await getDownloadURL(snapshot.ref);
 
-    stream.end(req.file.buffer);
-
-    stream.on('finish', () => {
-      res.status(200).json({ success: true });
-    });
-
-    stream.on('error', (error) => {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    return res.send({
+      message: 'file uploaded to firebase storage',
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      downloadURL: downloadURL,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(400).send(error.message);
   }
 });
 
