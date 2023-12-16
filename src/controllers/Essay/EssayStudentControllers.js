@@ -31,6 +31,24 @@ class EssayControllers {
 
     return res.json(essayStudent);
   }
+
+  async update(req, res) {
+    const { imageCorrected, grade, commented } = req.body;
+    const { essay_id } = req.params;
+
+    const essayStudent = await EssayStudent.updateOne(
+      {
+        _id: essay_id,
+      },
+      {
+        imageCorrected,
+        grade,
+        commented,
+      }
+    );
+
+    return res.json(essayStudent);
+  }
 }
 
 export default new EssayControllers();

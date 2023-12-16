@@ -108,26 +108,30 @@ routes.get('/essay/:company', companyExist, authenticateToken, EssayControllers.
 routes.get('/list-essay-student/:company', companyExist, authenticateToken, EssayControllers.listEssayForStudent);
 routes.post('/essay-student', companyExist, authenticateToken, EssayStudentControllers.store);
 routes.get('/essay-student/:company', companyExist, authenticateToken, EssayStudentControllers.index);
-
+routes.put('/essay-student/:essay_id', companyExist, authenticateToken, EssayStudentControllers.update);
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {
-    const dateTime = giveCurrentDateTime();
-    const storageRef = ref(storage, `images/${req.file.originalname + '       ' + dateTime}`);
-    const metadata = {
-      contentType: req.image.mimetype,
-    };
+    const file = bucket.file(req.file.originalname);
 
-    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
-    const downloadURL = await getDownloadURL(snapshot.ref);
+    const stream = file.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype,
+      },
+    });
 
-    return res.send({
-      message: 'file uploaded to firebase storage',
-      name: req.file.originalname,
-      type: req.file.mimetype,
-      downloadURL: downloadURL,
+    stream.end(req.file.buffer);
+
+    stream.on('finish', () => {
+      res.status(200).json({ success: true });
+    });
+
+    stream.on('error', (error) => {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     });
   } catch (error) {
-    return res.status(400).send(error.message);
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

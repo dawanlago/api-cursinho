@@ -3,6 +3,9 @@ import { Schema, model } from 'mongoose';
 const EssayStudentSchema = new Schema(
   {
     image: String,
+    imageCorrected: String,
+    grade: Number,
+    commented: String,
     student: {
       type: Schema.Types.ObjectId,
       ref: 'User',
