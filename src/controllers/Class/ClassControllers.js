@@ -134,8 +134,26 @@ class ClassController {
         $pull: { preEnrolledStudents: user._id },
       }
     );
-    await Class.updateOne({ _id: class_id }, { $push: { enrolledStudents: user } });
-    const classRes = await Class.find({ _id: class_id });
+    await Class.updateOne({ _id: class_id }, { $push: { enrolledStudents: user._id } });
+    const classRes = await Class.findById({ _id: class_id }).populate('preEnrolledStudents').populate('enrolledStudents');
+    return res.json(classRes);
+  }
+
+  async rejectStudentInCourse(req, res) {
+    const { student } = req.body;
+    const { class_id } = req.params;
+    const user = await User.findOne({ _id: student });
+    await Class.updateOne({ _id: class_id }, { $pull: { preEnrolledStudents: user._id } });
+    const classRes = await Class.findById({ _id: class_id }).populate('preEnrolledStudents').populate('enrolledStudents');
+    return res.json(classRes);
+  }
+
+  async removeStudentInCourse(req, res) {
+    const { student } = req.body;
+    const { class_id } = req.params;
+    const user = await User.findOne({ _id: student });
+    await Class.updateOne({ _id: class_id }, { $pull: { enrolledStudents: user._id } });
+    const classRes = await Class.findById({ _id: class_id }).populate('preEnrolledStudents').populate('enrolledStudents');
     return res.json(classRes);
   }
 }

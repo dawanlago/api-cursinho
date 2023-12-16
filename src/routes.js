@@ -39,8 +39,11 @@ routes.delete('/classes/:class_id', companyExist, authenticateToken, ClassContro
 routes.get('/classes/:company/:class_id', companyExist, authenticateToken, ClassController.read);
 routes.post('/enrollStudent/:class_id', companyExist, authenticateToken, ClassController.addStudent);
 routes.post('/acceptStudent/:class_id', companyExist, authenticateToken, ClassController.acceptStudentInCourse);
+routes.post('/rejectStudent/:class_id', companyExist, authenticateToken, ClassController.rejectStudentInCourse);
+routes.post('/removeStudent/:class_id', companyExist, authenticateToken, ClassController.removeStudentInCourse);
 routes.get('/enrolledCourses/:company/:student', companyExist, authenticateToken, ClassController.enrolledCourses);
 routes.get('/preEnrolledCourses/:company/:student', companyExist, authenticateToken, ClassController.preEnrolledCourses);
+
 // Topics
 routes.post('/topics/', companyExist, authenticateToken, TopicControllers.store);
 routes.get('/topics/:company', companyExist, authenticateToken, TopicControllers.index);
@@ -141,7 +144,7 @@ routes.post('/send-essay', upload.single('image'), async (req, res) => {
 routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
   try {
     const dateTime = giveCurrentDateTime();
-    const storageRef = ref(storage, `files/${req.file.originalname + '       ' + dateTime}`);
+    const storageRef = ref(storage, `files/${dateTime}-${req.file.originalname}`);
     const metadata = {
       contentType: req.file.mimetype,
     };
