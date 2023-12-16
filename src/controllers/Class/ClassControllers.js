@@ -1,6 +1,15 @@
 import mongoose from 'mongoose';
 import Class from '../../models/Class';
 import User from '../../models/User';
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dawanlago12@gmail.com', // your Gmail email
+    pass: 'ttol mfsc kgce smxn',
+  },
+});
 
 class ClassController {
   async index(req, res) {
@@ -102,7 +111,67 @@ class ClassController {
     const { student } = req.body;
     const { class_id } = req.params;
     const user = await User.findOne({ _id: student });
+    const course = await Class.findOne({ _id: class_id });
     const preEnrolledStudents = await Class.updateOne({ _id: class_id }, { $push: { preEnrolledStudents: user } });
+    const mailOptions = {
+      from: 'dawanlago12@gmail.com',
+      to: 'goatconcursos@gmail.com',
+      subject: 'Solicitação de matrícula',
+      html: `<!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmação de Email</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+          }
+
+          .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+
+          h2 {
+            color: #333;
+          }
+
+          p {
+            color: #666;
+          }
+
+          .confirmation-link {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h2>Solicitação de matrícula</h2>
+          <p>Atenção!</p>
+          <p>Foi feita uma solicitação de matrícula do aluno <b>${user.name}</b> na turma <b>${course.description}</b>. Verifique no cadastro da turma. </p>
+          <p>Atenciosamente,<br>GOAT Concursos</p>
+        </div>
+      </body>
+      </html>`,
+    };
+    await transporter.sendMail(mailOptions);
+
     return res.json(preEnrolledStudents);
   }
 
@@ -128,6 +197,7 @@ class ClassController {
     const { student } = req.body;
     const { class_id } = req.params;
     const user = await User.findOne({ _id: student });
+    const course = await Class.findOne({ _id: class_id });
     await Class.updateOne(
       { _id: class_id },
       {
@@ -136,6 +206,64 @@ class ClassController {
     );
     await Class.updateOne({ _id: class_id }, { $push: { enrolledStudents: user._id } });
     const classRes = await Class.findById({ _id: class_id }).populate('preEnrolledStudents').populate('enrolledStudents');
+    const mailOptions = {
+      from: 'dawanlago12@gmail.com',
+      to: user.email,
+      subject: 'Confirmação de matrícula',
+      html: `<!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmação de Email</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+          }
+
+          .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+
+          h2 {
+            color: #333;
+          }
+
+          p {
+            color: #666;
+          }
+
+          .confirmation-link {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h2>Confirmação de matrícula</h2>
+          <p>Atenção!</p>
+          <p>Olá, <b>${user.name}</b>! Sua matrícula na turma <b>${course.description}</b> foi confirmada.
+          <p>Atenciosamente,<br>GOAT Concursos</p>
+        </div>
+      </body>
+      </html>`,
+    };
+    await transporter.sendMail(mailOptions);
     return res.json(classRes);
   }
 
