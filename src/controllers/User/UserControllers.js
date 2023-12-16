@@ -103,7 +103,7 @@ class UserController {
           <h2>Confirmação de Email</h2>
           <p>Olá,</p>
           <p>Obrigado por se cadastrar! Para completar o processo de registro, por favor, clique no link abaixo para confirmar seu endereço de e-mail:</p>
-          <a href="https://goatconcursos.com.br/login/${verificationToken}" class="confirmation-link">Confirmar Email</a>
+          <a href="https://goatconcursos.com.br/active-token/${verificationToken}" class="confirmation-link">Confirmar Email</a>
           <p>Se você não se cadastrou no nosso serviço, por favor, ignore este e-mail.</p>
           <p>Atenciosamente,<br>GOAT Concursos</p>
         </div>
@@ -247,7 +247,7 @@ class UserController {
               <h2>Confirmação de Email</h2>
               <p>Olá,</p>
               <p>Obrigado por se cadastrar! Para completar o processo de registro, por favor, clique no link abaixo para confirmar seu endereço de e-mail:</p>
-              <a href="https://goatconcursos.com.br/login/${verificationToken}" class="confirmation-link">Confirmar Email</a>
+              <a href="https://goatconcursos.com.br/active-token/${verificationToken}" class="confirmation-link">Confirmar Email</a>
               <p>Se você não se cadastrou no nosso serviço, por favor, ignore este e-mail.</p>
               <p>Atenciosamente,<br>GOAT Concursos</p>
             </div>
