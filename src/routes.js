@@ -109,6 +109,8 @@ routes.get('/list-essay-student/:company', companyExist, authenticateToken, Essa
 routes.post('/essay-student', companyExist, authenticateToken, EssayStudentControllers.store);
 routes.get('/essay-student/:company', companyExist, authenticateToken, EssayStudentControllers.index);
 routes.put('/essay-student/:essay_id', companyExist, authenticateToken, EssayStudentControllers.update);
+routes.get('/essay-student-corrected/:company/:student_id', companyExist, authenticateToken, EssayStudentControllers.indexCorrected);
+
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {
     const file = bucket.file(req.file.originalname);

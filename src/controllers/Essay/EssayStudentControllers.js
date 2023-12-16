@@ -1,10 +1,27 @@
 import EssayStudent from '../../models/EssayStudent';
 
-class EssayControllers {
+class EssayStudentControllers {
   async index(req, res) {
     const { company } = req.params;
 
     const essays = await EssayStudent.find({ company, corrected: false })
+      .sort({ endDate: -1 })
+      .populate('company')
+      .populate('student')
+      .populate({
+        path: 'essayAdm',
+        populate: {
+          path: 'course',
+        },
+      });
+
+    return res.json(essays);
+  }
+
+  async indexCorrected(req, res) {
+    const { company, student_id } = req.params;
+
+    const essays = await EssayStudent.find({ company, student: student_id, corrected: true })
       .sort({ endDate: -1 })
       .populate('company')
       .populate('student')
@@ -51,4 +68,4 @@ class EssayControllers {
   }
 }
 
-export default new EssayControllers();
+export default new EssayStudentControllers();
