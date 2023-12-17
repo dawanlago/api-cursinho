@@ -7,8 +7,8 @@ const uuid = require('uuid');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'goatsistemas@gmail.com', // your Gmail email
-    pass: '$Kf8fxaoYB',
+    user: 'dawanlago12@gmail.com', // your Gmail email
+    pass: 'ttol mfsc kgce smxn',
   },
 });
 
@@ -52,7 +52,7 @@ class UserController {
     });
 
     const mailOptions = {
-      from: 'goatsistemas@gmail.com',
+      from: 'dawanlago12@gmail.com',
       to: email,
       subject: 'Confirme seu e-mail',
       html: `<!DOCTYPE html>
@@ -196,7 +196,7 @@ class UserController {
           }
         );
         const mailOptions = {
-          from: 'goatsistemas@gmail.com',
+          from: 'dawanlago12@gmail.com',
           to: email,
           subject: 'Confirme seu e-mail',
           html: `<!DOCTYPE html>
