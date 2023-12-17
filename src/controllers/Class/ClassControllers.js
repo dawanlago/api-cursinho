@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'dawanlago12@gmail.com', // your Gmail email
+    user: 'goatsistemas@gmail.com', // your Gmail email
     pass: 'ttol mfsc kgce smxn',
   },
 });
@@ -114,7 +114,7 @@ class ClassController {
     const course = await Class.findOne({ _id: class_id });
     const preEnrolledStudents = await Class.updateOne({ _id: class_id }, { $push: { preEnrolledStudents: user } });
     const mailOptions = {
-      from: 'dawanlago12@gmail.com',
+      from: 'goatsistemas@gmail.com',
       to: 'goatconcursos@gmail.com',
       subject: 'Solicitação de matrícula',
       html: `<!DOCTYPE html>
@@ -207,7 +207,7 @@ class ClassController {
     await Class.updateOne({ _id: class_id }, { $push: { enrolledStudents: user._id } });
     const classRes = await Class.findById({ _id: class_id }).populate('preEnrolledStudents').populate('enrolledStudents');
     const mailOptions = {
-      from: 'dawanlago12@gmail.com',
+      from: 'goatsistemas@gmail.com',
       to: user.email,
       subject: 'Confirmação de matrícula',
       html: `<!DOCTYPE html>
