@@ -299,12 +299,13 @@ class UserController {
         return res.json({ success: false, errors: 'Nenhum usuário encontrado' });
       }
 
-      const resetToken = crypto.randomBytes(20).toString('hex');
+      const resetToken = uuid.v4();
       const resetTokenExpiration = Date.now() + 3600000; // 1 hora
 
       user.resetToken = resetToken;
       user.resetTokenExpiration = resetTokenExpiration;
 
+      console.log('oi');
       await user.save();
 
       const mailOptions = {
@@ -359,7 +360,7 @@ class UserController {
               <h2>Alteração de senha</h2>
               <p>Olá,</p>
               <p>Você solicitou alteração de senha? Para alterar a sua senha, basta clicar no link abaixo:</p>
-              <a href="https://goatconcursos.com.br/forgot-password/${resetToken}" class="confirmation-link">Alterar a senha</a>
+              <a href="http://localhost:8080/forgot-password/${resetToken}" class="confirmation-link">Alterar a senha</a>
               <p>Se você não se cadastrou no nosso serviço, por favor, ignore este e-mail.</p>
               <p>Atenciosamente,<br>GOAT Concursos</p>
             </div>
@@ -368,7 +369,7 @@ class UserController {
       };
 
       await transporter.sendMail(mailOptions);
-      return res.json({ success: false, errors: 'Verifique seu email para alterar a sua senha' });
+      return res.json({ success: true, errors: 'Verifique seu email para alterar a sua senha' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Erro ao processar a solicitação' });
