@@ -9,6 +9,8 @@ const UserSchema = new Schema(
     cpf: String,
     admin: Boolean,
     verificationToken: String,
+    resetToken: String,
+    resetTokenExpiration: Date,
     active: Boolean,
     company: {
       type: Schema.Types.ObjectId,

@@ -288,6 +288,92 @@ class UserController {
       res.status(500).json({ message: 'Erro no servidor' });
     }
   }
+
+  async forgotPassword(req, res) {
+    const { email, company } = req.body;
+
+    try {
+      const user = await User.findOne({ email, company });
+
+      if (!user) {
+        return res.json({ success: false, errors: 'Nenhum usuário encontrado' });
+      }
+
+      const resetToken = crypto.randomBytes(20).toString('hex');
+      const resetTokenExpiration = Date.now() + 3600000; // 1 hora
+
+      user.resetToken = resetToken;
+      user.resetTokenExpiration = resetTokenExpiration;
+
+      await user.save();
+
+      const mailOptions = {
+        from: 'dawanlago12@gmail.com',
+        to: email,
+        subject: 'Alteração de senha',
+        html: `<!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Alteração de senha</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+              }
+
+              .container {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+
+              h2 {
+                color: #333;
+              }
+
+              p {
+                color: #666;
+              }
+
+              .confirmation-link {
+                display: block;
+                margin-top: 20px;
+                padding: 10px;
+                background-color: #4caf50;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 4px;
+                text-align: center;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h2>Alteração de senha</h2>
+              <p>Olá,</p>
+              <p>Você solicitou alteração de senha? Para alterar a sua senha, basta clicar no link abaixo:</p>
+              <a href="https://goatconcursos.com.br/forgot-password/${resetToken}" class="confirmation-link">Alterar a senha</a>
+              <p>Se você não se cadastrou no nosso serviço, por favor, ignore este e-mail.</p>
+              <p>Atenciosamente,<br>GOAT Concursos</p>
+            </div>
+          </body>
+          </html>`,
+      };
+
+      await transporter.sendMail(mailOptions);
+      return res.json({ success: false, errors: 'Verifique seu email para alterar a sua senha' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro ao processar a solicitação' });
+    }
+  }
 }
 
 export default new UserController();
