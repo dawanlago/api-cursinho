@@ -369,10 +369,40 @@ class UserController {
       };
 
       await transporter.sendMail(mailOptions);
-      return res.json({ success: true, errors: 'Verifique seu email para alterar a sua senha' });
+      return res.json({ success: true, message: 'Verifique seu email para alterar a sua senha' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Erro ao processar a solicitação' });
+      res.status(500).json({ success: false, errors: 'Erro ao processar a solicitação' });
+    }
+  }
+
+  async resetPassword(req, res) {
+    const { token } = req.params;
+    const { password, company } = req.body;
+
+    try {
+      const user = await User.findOne({
+        company,
+        resetToken: token,
+        resetTokenExpiration: { $gt: Date.now() },
+      });
+
+      if (!user) {
+        return res.json({ success: false, message: 'Token inválido ou expirado' });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      // Atualize a senha e limpe os campos de redefinição
+      user.password = hashedPassword;
+      user.resetToken = undefined;
+      user.resetTokenExpiration = undefined;
+
+      await user.save();
+
+      return res.json({ success: true, message: 'Senha redefinida com sucesso' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, errors: 'Erro ao processar a solicitação' });
     }
   }
 }

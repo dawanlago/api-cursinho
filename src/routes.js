@@ -105,6 +105,7 @@ routes.get('/users/:company', companyExist, authenticateToken, UserControllers.i
 routes.put('/users/:user_id/', companyExist, authenticateToken, UserControllers.update);
 routes.delete('/users/:user_id/', companyExist, authenticateToken, UserControllers.destroy);
 routes.post('/request-forgot-password', companyExist, UserControllers.forgotPassword);
+routes.post('/reset-password/:token', companyExist, UserControllers.resetPassword);
 // Essay
 routes.post('/essay', companyExist, authenticateToken, EssayControllers.store);
 routes.get('/essay/:company', companyExist, authenticateToken, EssayControllers.index);
