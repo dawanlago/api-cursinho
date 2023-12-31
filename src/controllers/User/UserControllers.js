@@ -361,7 +361,7 @@ class UserController {
               <h2>Alteração de senha</h2>
               <p>Olá,</p>
               <p>Você solicitou alteração de senha? Para alterar a sua senha, basta clicar no link abaixo:</p>
-              <a href="http://localhost:8080/forgot-password/${resetToken}" class="confirmation-link">Alterar a senha</a>
+              <a href="https://goatconcursos.com.br/forgot-password/${resetToken}" class="confirmation-link">Alterar a senha</a>
               <p>Se você não se cadastrou no nosso serviço, por favor, ignore este e-mail.</p>
               <p>Atenciosamente,<br>GOAT Concursos</p>
             </div>
@@ -380,13 +380,13 @@ class UserController {
   async resetPassword(req, res) {
     const { token } = req.params;
     const { password, company } = req.body;
-
     try {
       const user = await User.findOne({
         company,
         resetToken: token,
-        resetTokenExpiration: { $gt: Date.now() },
       });
+
+      console.log(user);
 
       if (!user) {
         return res.json({ success: false, message: 'Token inválido ou expirado' });
