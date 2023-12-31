@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const uuid = require('uuid');
+const moment = require('moment-timezone');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -300,12 +301,12 @@ class UserController {
       }
 
       const resetToken = uuid.v4();
-      const resetTokenExpiration = Date.now() + 3600000; // 1 hora
+      const dateTokenExpiration = Date.now() + 3600000; // 1 hora
+      const resetTokenExpiration = moment(dateTokenExpiration).subtract(3, 'hours').toDate();
 
       user.resetToken = resetToken;
       user.resetTokenExpiration = resetTokenExpiration;
 
-      console.log('oi');
       await user.save();
 
       const mailOptions = {
