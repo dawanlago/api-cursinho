@@ -21,6 +21,7 @@ import { authenticateToken } from './middlewares/authenticateToken';
 import SimulatorAdmController from './controllers/Simulator/SimulatorAdmController';
 import EssayControllers from './controllers/Essay/EssayControllers';
 import EssayStudentControllers from './controllers/Essay/EssayStudentControllers';
+import FlashcardControllers from './controllers/Flashcard/FlashcardControllers';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -115,6 +116,11 @@ routes.post('/essay-student', companyExist, authenticateToken, EssayStudentContr
 routes.get('/essay-student/:company', companyExist, authenticateToken, EssayStudentControllers.index);
 routes.put('/essay-student/:essay_id', companyExist, authenticateToken, EssayStudentControllers.update);
 routes.get('/essay-student-corrected/:company/:student_id', companyExist, authenticateToken, EssayStudentControllers.indexCorrected);
+
+// Flashcards
+routes.post('/flashcards', companyExist, authenticateToken, FlashcardControllers.store);
+routes.get('/flashcards/:company/:user', companyExist, authenticateToken, FlashcardControllers.index);
+routes.get('/flashcards-adm/:company', companyExist, authenticateToken, FlashcardControllers.indexAdm);
 
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {
