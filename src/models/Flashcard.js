@@ -14,6 +14,18 @@ const FlashcardSchema = new Schema(
       required: false,
       set: (v) => (v === '' ? null : v),
     },
+    discipline: {
+      type: Schema.Types.ObjectId,
+      ref: 'Discipline',
+      required: false,
+      set: (v) => (v === '' ? null : v),
+    },
+    subject: {
+      type: Schema.Types.ObjectId,
+      ref: 'Subject',
+      required: false,
+      set: (v) => (v === '' ? null : v),
+    },
     company: {
       type: Schema.Types.ObjectId,
       ref: 'Company',

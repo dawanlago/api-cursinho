@@ -4,20 +4,46 @@ import Question from '../../models/Question';
 class FlashcardControllers {
   async index(req, res) {
     const { company, user } = req.params;
+    const { discipline, subject } = req.query;
+    const data = {
+      company: company,
+      user: user,
+    };
 
-    const flashcards = await Flashcard.find({ company, user }).populate('company');
+    if (!!discipline) {
+      data.discipline = discipline;
+    }
+
+    if (!!subject) {
+      data.subject = subject;
+    }
+
+    const flashcards = await Flashcard.find({ company, user }).populate('company').populate('discipline').populate('subject');
     return res.json(flashcards);
   }
 
   async indexAdm(req, res) {
     const { company } = req.params;
 
-    const flashcards = await Flashcard.find({ company, adm: true }).populate('company');
+    const { discipline, subject } = req.query;
+    const data = {
+      company: company,
+    };
+
+    if (!!discipline) {
+      data.discipline = discipline;
+    }
+
+    if (!!subject) {
+      data.subject = subject;
+    }
+
+    const flashcards = await Flashcard.find({ company, adm: true }).populate('company').populate('discipline').populate('subject');
     return res.json(flashcards);
   }
 
   async store(req, res) {
-    const { description, answer, user, company, adm } = req.body;
+    const { description, answer, user, company, adm, discipline, subject } = req.body;
 
     if (!description || description === '') {
       return res.json({ success: false, errors: 'A descrição do flashcard é obrigatória' });
@@ -32,6 +58,8 @@ class FlashcardControllers {
       answer,
       user,
       adm,
+      discipline,
+      subject,
       company,
     });
 
