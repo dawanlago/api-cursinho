@@ -18,7 +18,10 @@ class FlashcardControllers {
       data.subject = subject;
     }
 
-    const flashcards = await Flashcard.find({ company, user }).populate('company').populate('discipline').populate('subject');
+    const flashcards = await Flashcard.find({ ...data })
+      .populate('company')
+      .populate('discipline')
+      .populate('subject');
     return res.json(flashcards);
   }
 
@@ -28,6 +31,7 @@ class FlashcardControllers {
     const { discipline, subject } = req.query;
     const data = {
       company: company,
+      adm: true,
     };
 
     if (!!discipline) {
@@ -38,7 +42,10 @@ class FlashcardControllers {
       data.subject = subject;
     }
 
-    const flashcards = await Flashcard.find({ company, adm: true }).populate('company').populate('discipline').populate('subject');
+    const flashcards = await Flashcard.find({ ...data })
+      .populate('company')
+      .populate('discipline')
+      .populate('subject');
     return res.json(flashcards);
   }
 
