@@ -121,6 +121,8 @@ routes.get('/essay-student-corrected/:company/:student_id', companyExist, authen
 routes.post('/flashcards', companyExist, authenticateToken, FlashcardControllers.store);
 routes.get('/flashcards/:company/:user', companyExist, authenticateToken, FlashcardControllers.index);
 routes.get('/flashcards-adm/:company', companyExist, authenticateToken, FlashcardControllers.indexAdm);
+routes.delete('/flashcards/:flashcards_id', companyExist, authenticateToken, FlashcardControllers.destroy);
+routes.put('/flashcards/:flashcards_id/', companyExist, authenticateToken, FlashcardControllers.update);
 
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {

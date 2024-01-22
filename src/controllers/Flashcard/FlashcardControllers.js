@@ -1,5 +1,4 @@
 import Flashcard from '../../models/Flashcard';
-import Question from '../../models/Question';
 
 class FlashcardControllers {
   async index(req, res) {
@@ -74,47 +73,28 @@ class FlashcardControllers {
   }
 
   async update(req, res) {
-    const {
-      description,
-      discipline,
-      subject,
-      jury,
-      year,
-      level,
-      difficulty,
-      modality,
-      commentedTemplate,
-      answers,
-      answerCorrect,
-      feedback,
-      company,
-    } = req.body;
-    const { question_id } = req.params;
+    const { description, answer, company, discipline, subject } = req.body;
+    const { flashcards_id } = req.params;
 
-    if (!question_id || question_id === '') {
-      return res.json({ success: false, errors: 'Houve um erro com o código da questão' });
+    if (!flashcards_id || flashcards_id === '') {
+      return res.json({ success: false, errors: 'Houve um erro com o código do flashcards' });
     }
 
     if (!description || description === '') {
-      return res.json({ success: false, errors: 'A descrição da questão é obrigatório' });
+      return res.json({ success: false, errors: 'A descrição do flashcards é obrigatória' });
+    }
+    if (!answer || answer === '') {
+      return res.json({ success: false, errors: 'A resposta é obrigatória' });
     }
 
-    const question = await Question.updateOne(
-      { _id: question_id },
+    const flashcard = await Flashcard.updateOne(
+      { _id: flashcards_id },
       {
         description,
+        answer,
+        company,
         discipline,
         subject,
-        jury,
-        year,
-        level,
-        difficulty,
-        modality,
-        commentedTemplate,
-        answers,
-        answerCorrect,
-        feedback,
-        company,
       }
     );
 
@@ -122,52 +102,18 @@ class FlashcardControllers {
   }
 
   async destroy(req, res) {
-    const { question_id } = req.params;
+    const { flashcards_id } = req.params;
 
-    if (!question_id || question_id === '') {
-      return res.json({ success: false, errors: 'Houve um erro com o código da questão' });
+    if (!flashcards_id || flashcards_id === '') {
+      return res.json({ success: false, errors: 'Houve um erro com o código do flashcards' });
     }
 
-    const question = await Question.findByIdAndDelete({ _id: question_id });
+    const flashcard = await Flashcard.findByIdAndDelete({ _id: flashcards_id });
 
-    if (!question) {
-      return res.json({ success: false, errors: 'Houve um erro ao deletar a questão' });
+    if (!flashcard) {
+      return res.json({ success: false, errors: 'Houve um erro ao deletar o flashcards' });
     }
-    return res.json({ message: 'Questão excluída com sucesso' });
-  }
-
-  async read(req, res) {
-    const { class_id, company } = req.params;
-
-    if (!class_id || class_id === '') {
-      return res.json({ success: false, errors: 'Houve um erro com o código da turma' });
-    }
-
-    const classReq = await Class.find({ _id: class_id, company });
-    return res.json(classReq);
-  }
-
-  async addAnswer(req, res) {
-    const { answer } = req.body;
-    const { question_id } = req.params;
-
-    const question = await Question.findById(question_id);
-
-    //Pegar a resposta
-    question.answers.forEach((item) => {
-      if (item.option === answer) {
-        item.quantityChosen++;
-      }
-    });
-    const questionUpdate = await Question.updateOne(
-      { _id: question_id },
-      {
-        answers: question.answers,
-      }
-    );
-
-    const questionUpdated = await Question.findById(question_id);
-    return res.json(questionUpdated);
+    return res.json({ message: 'Flashcard excluído com sucesso' });
   }
 }
 
