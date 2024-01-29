@@ -11,5 +11,10 @@
       "src": "/(.*)",
       "dest": "src/server.js"
     }
-  ]
+  ],
+  "functions": {
+    "api": {
+      "maxPayload": "500mb"
+    }
+  }
 }
