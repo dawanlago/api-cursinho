@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "src/server.js"
     }
-  ]
+  ],
+  "functions": {
+    "./src/routes.js": {
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  }
 }
