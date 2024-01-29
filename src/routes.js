@@ -162,15 +162,14 @@ routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
     const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
 
-    const resp = res.send({
+    return res.send({
       message: 'file uploaded to firebase storage',
       name: req.file.originalname,
       type: req.file.mimetype,
       downloadURL: downloadURL,
     });
-    console.log(resp);
-    return resp;
   } catch (error) {
+    console.log(error);
     return res.status(400).send(error.message);
   }
 });
