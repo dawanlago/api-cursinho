@@ -20,7 +20,7 @@ class App {
     this.server.use(cors());
     this.server.use(express.static('../../../public'));
     this.server.use(bodyParser.json({ limit: '50mb' }));
-    this.server.use(express.json());
+    this.server.use(express.json({ limit: '50mb' }));
   }
 
   routes() {

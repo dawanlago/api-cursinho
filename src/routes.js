@@ -25,7 +25,7 @@ import FlashcardControllers from './controllers/Flashcard/FlashcardControllers';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024 } });
 
 const routes = new Router();
 routes.post('/', (req, res) => {
@@ -169,7 +169,6 @@ routes.post('/upload-pdf', upload.single('pdf'), async (req, res) => {
       downloadURL: downloadURL,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).send(error.message);
   }
 });
