@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "limits": {
-    "maxPayload": "500mb"
-  },
   "builds": [
     {
       "src": "src/server.js",

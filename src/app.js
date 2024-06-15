@@ -20,7 +20,7 @@ class App {
     this.server.use(cors());
     this.server.use(express.static('../../../public'));
     this.server.use(bodyParser.urlencoded({ extended: true, parameterLimit: 100000, limit: '500mb' }));
-    this.server.use(bodyParser.json());
+    this.server.use(bodyParser.json({ limit: '500mb' }));
     this.server.use(express.json({ limit: '500mb' }));
   }
 
