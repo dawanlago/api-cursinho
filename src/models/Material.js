@@ -9,6 +9,18 @@ const MaterialSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Class',
     },
+    discipline: {
+      type: Schema.Types.ObjectId,
+      ref: 'Discipline',
+      required: false,
+      set: (v) => (v === '' ? null : v),
+    },
+    subject: {
+      type: Schema.Types.ObjectId,
+      ref: 'Subject',
+      required: false,
+      set: (v) => (v === '' ? null : v),
+    },
     week: Number,
     day: Number,
     company: {
