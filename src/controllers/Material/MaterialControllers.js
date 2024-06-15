@@ -11,13 +11,41 @@ class MaterialController {
   };
 
   async index(req, res) {
-    const { company, week, day, course } = req.params;
-    const materials = await Material.find({ company, course, week, day }).populate('course').populate('company');
+    const { company } = req.params;
+    const { week, day, course, discipline, subject } = req.query;
+
+    const data = {
+      company: company,
+    };
+
+    if (!!week) {
+      data.week = week;
+    }
+
+    if (!!day) {
+      data.day = day;
+    }
+
+    if (!!course) {
+      data.course = course;
+    }
+
+    if (!!discipline) {
+      data.discipline = discipline;
+    }
+
+    if (!!subject) {
+      data.subject = subject;
+    }
+
+    const materials = await Material.find({ ...data })
+      .populate('course')
+      .populate('company');
     return res.json(materials);
   }
 
   async store(req, res) {
-    const { title, type, content, course, week, day, company } = req.body;
+    const { title, type, content, course, week, day, company, discipline, subject } = req.body;
 
     if (!title || title === '') {
       return res.json({ success: false, errors: 'Nenhum título foi informado' });
@@ -34,6 +62,8 @@ class MaterialController {
       course,
       week,
       day,
+      discipline,
+      subject,
       company,
     });
 
@@ -41,7 +71,7 @@ class MaterialController {
   }
 
   async update(req, res) {
-    const { title, type, content, course, week, day, company } = req.body;
+    const { title, type, content, course, week, day, company, discipline, subject } = req.body;
     const { material_id } = req.params;
 
     if (!title || title === '') {
@@ -61,6 +91,8 @@ class MaterialController {
         course,
         week,
         day,
+        discipline,
+        subject,
         company,
       }
     );
