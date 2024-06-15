@@ -75,7 +75,7 @@ routes.get('/subjects/:company/:subject_id', companyExist, authenticateToken, Su
 
 // Materials
 routes.post('/materials/', companyExist, authenticateToken, MaterialControllers.store);
-routes.get('/materials/:company/:course/:week/:day', authenticateToken, companyExist, MaterialControllers.index);
+routes.get('/materials/:company', authenticateToken, companyExist, MaterialControllers.index);
 routes.put('/materials/:material_id', companyExist, authenticateToken, MaterialControllers.update);
 routes.delete('/materials/:material_id', companyExist, authenticateToken, MaterialControllers.destroy);
 
