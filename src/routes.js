@@ -22,6 +22,7 @@ import SimulatorAdmController from './controllers/Simulator/SimulatorAdmControll
 import EssayControllers from './controllers/Essay/EssayControllers';
 import EssayStudentControllers from './controllers/Essay/EssayStudentControllers';
 import FlashcardControllers from './controllers/Flashcard/FlashcardControllers';
+import TimelineController from './controllers/Timeline/TimelineController';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -123,6 +124,9 @@ routes.get('/flashcards/:company/:user', companyExist, authenticateToken, Flashc
 routes.get('/flashcards-adm/:company', companyExist, authenticateToken, FlashcardControllers.indexAdm);
 routes.delete('/flashcards/:flashcards_id', companyExist, authenticateToken, FlashcardControllers.destroy);
 routes.put('/flashcards/:flashcards_id/', companyExist, authenticateToken, FlashcardControllers.update);
+
+routes.get('/timeline/:company/', companyExist, authenticateToken, TimelineController.index);
+routes.post('/timeline', companyExist, authenticateToken, TimelineController.store);
 
 routes.post('/send-essay', upload.single('image'), async (req, res) => {
   try {
