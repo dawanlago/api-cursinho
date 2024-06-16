@@ -98,14 +98,14 @@ class SimulatorAdmController {
 
   async listSimulators(req, res) {
     const { company, course } = req.params;
-    const simulators = await Simulator.find({ company, course }).sort({ createdAt: -1 }).populate('company');
+    const simulators = await Simulator.find({ company, course }).sort({ createdAt: -1 }).populate('company').populate('course');
     return res.json(simulators);
   }
 
   async listSimulatorsForStudent(req, res) {
     const { company } = req.params;
     const { course } = req.query;
-    const simulators = await Simulator.find({ company, course }).sort({ createdAt: -1 }).populate('company');
+    const simulators = await Simulator.find({ company, course }).sort({ createdAt: -1 }).populate('company').populate('course');
     return res.json(simulators);
   }
 

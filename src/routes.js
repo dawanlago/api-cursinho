@@ -23,6 +23,7 @@ import EssayControllers from './controllers/Essay/EssayControllers';
 import EssayStudentControllers from './controllers/Essay/EssayStudentControllers';
 import FlashcardControllers from './controllers/Flashcard/FlashcardControllers';
 import TimelineController from './controllers/Timeline/TimelineController';
+import SimulatorFileController from './controllers/Simulator/SimulatorFileController';
 
 initializeApp(config.firebaseConfig);
 const storage = getStorage();
@@ -89,6 +90,11 @@ routes.delete('/questions/:question_id', companyExist, authenticateToken, Questi
 
 // Simulators
 routes.get('/simulators/:company/', companyExist, authenticateToken, SimulatorController.index);
+routes.get('/listSimulators/:company/:user', companyExist, authenticateToken, SimulatorController.listSimulators);
+routes.post('/simulators', companyExist, authenticateToken, SimulatorController.store);
+
+// Simulators File
+routes.get('/simulators-file/:company/', companyExist, authenticateToken, SimulatorFileController.index);
 routes.get('/listSimulators/:company/:user', companyExist, authenticateToken, SimulatorController.listSimulators);
 routes.post('/simulators', companyExist, authenticateToken, SimulatorController.store);
 

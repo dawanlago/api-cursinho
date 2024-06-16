@@ -6,9 +6,8 @@ class TimelineController {
     const { company } = req.params;
     const { user } = req.query;
 
-    const timeline = await Timeline.find({
+    const timeline = await Timeline.findOne({
       user: user,
-      company: company,
     })
       .populate({
         path: 'days.subjects.discipline',
