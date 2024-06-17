@@ -9,6 +9,7 @@ const TimelineSchema = new Schema(
     days: [
       {
         day: String,
+        date: String,
         time: String,
         subjects: [
           {
