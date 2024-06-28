@@ -12,16 +12,26 @@ class TimelineController {
   }
 
   async store(req, res) {
-    const { user, days, company } = req.body;
+    try {
+      const { user, days, company } = req.body;
 
-    await Timeline.findByIdAndDelete({ user: user, company });
+      if (!user || !days || !company) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
 
-    const timeline = await Timeline.create({
-      user,
-      days,
-      company,
-    });
-    return res.json(timeline);
+      await Timeline.findOneAndDelete({ user });
+
+      const timeline = await Timeline.create({
+        user,
+        days,
+        company,
+      });
+
+      return res.json(timeline);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
 }
 

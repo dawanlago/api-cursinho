@@ -1,35 +1,25 @@
 import { Schema, model } from 'mongoose';
 
-const TimelineSchema = new Schema({
+const TimelineSchema = new Schema(
+  {
     user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
-    days: [{
+    days: [
+      {
         day: String,
         date: String,
         time: String,
-        subjects: [{
-            discipline: {
-                type: Schema.Types.ObjectId,
-                ref: 'Discipline',
-                required: false,
-                set: (v) => (v === '' ? null : v),
-            },
-            subject: {
-                type: Schema.Types.ObjectId,
-                ref: 'Subject',
-                required: false,
-                set: (v) => (v === '' ? null : v),
-            },
-            important: Number,
-            time: String,
-        }, ],
-    }, ],
+        subjects: [],
+      },
+    ],
     company: {
-        type: Schema.Types.ObjectId,
-        ref: 'Company',
+      type: Schema.Types.ObjectId,
+      ref: 'Company',
     },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
 export default model('Timeline', TimelineSchema);
